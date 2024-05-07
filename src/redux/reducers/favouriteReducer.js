@@ -1,11 +1,10 @@
-import { combineReducers } from 'redux'
 import { ADD_TO_FAVOURITE, REMOVE_FROM_FAVOURITE } from '../action/actionTypes'
 
 const initialState = {
   list: [],
 }
 
-const favouriteReducer = (state = initialState, action) => {
+export const favouriteReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_FAVOURITE:
       return {
@@ -22,8 +21,3 @@ const favouriteReducer = (state = initialState, action) => {
   }
 }
 
-const rootReducer = combineReducers({
-  favourite: favouriteReducer
-})
-
-export default rootReducer
