@@ -27,26 +27,6 @@ export const clearSearchResults = () => ({
   type: CLEAR_SEARCH_RESULTS,
 })
 
-//fetch the search results
-const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search="
-export const fetchjobs = (query) => {
-  return async (dispatch) => {
-    try {
-      const response = await fetch(baseEndpoint + query + "&limit=20")
-      if (response.ok) {
-        const { data } = await response.json()
-        console.log("data arriva?", data)
-        dispatch(setSearchResults(data))
-      } else {
-        alert("Error fetching results")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
-
 export const setLoading = (isLoading) => ({
     type: SET_LOADING,
     payload: isLoading,
@@ -60,3 +40,27 @@ export const setLoading = (isLoading) => ({
   export const clearError = () => ({
     type: CLEAR_ERROR,
   })
+
+
+//fetch the search results
+const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search="
+export const fetchjobs = (query) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(baseEndpoint + query + "&limit=20")
+      if (response.ok) {
+        const { data } = await response.json()
+        console.log("data arriva?", data)
+        dispatch(setSearchResults(data))
+        dispatch(setLoading(false))
+      } else {
+        throw new Error('Failed to fetch results')
+      }
+    } catch (error) {
+      console.log("Errore nella fetch", error)
+      dispatch(setError(error.message))
+      dispatch(setLoading(false))
+    }
+  }
+}
+
